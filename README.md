@@ -1,4 +1,4 @@
-# Project Dawn 🌅
+# Project Dawn 🌅v1.0.0
 
 > **The first million. Then the life I choose.**
 
