@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Dawn</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-system" aria-hidden="true">
+      <span class="background-ribbon background-ribbon--one"></span>
+      <span class="background-ribbon background-ribbon--two"></span>
+      <span class="background-ribbon background-ribbon--three"></span>
+    </div>
+    <main class="app-shell">
+      <section class="summary" aria-labelledby="page-title">
+        <div class="summary__header">
+          <div>
+            <p class="eyebrow">个人存款记录</p>
+            <h1 id="page-title">Project Dawn</h1>
+            <p class="tagline">The first million. Then the life I choose.</p>
+          </div>
+          <div class="summary-actions">
+            <label class="privacy-toggle" for="privacyModeToggle">
+              <span>Privacy Mode</span>
+              <input id="privacyModeToggle" type="checkbox" />
+            </label>
+            <div class="goal-badge" id="goalBadge">目标 ¥1,000,000</div>
+          </div>
+        </div>
+
+        <div class="progress-block" aria-label="存款目标完成进度">
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-meta">
+            <span id="progressPercent">0.00%</span>
+            <span id="remainingAmount">还差 ¥1,000,000.00</span>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat">
+            <span class="stat__label">当前累计</span>
+            <strong id="totalAmount">¥0.00</strong>
+          </article>
+          <article class="stat">
+            <span class="stat__label">距离目标</span>
+            <strong id="gapAmount">¥1,000,000.00</strong>
+          </article>
+          <article class="stat">
+            <span class="stat__label">完成率</span>
+            <strong id="completionRate">0.00%</strong>
+          </article>
+          <article class="stat">
+            <span class="stat__label">本月新增存款</span>
+            <strong id="monthlyAmount">¥0.00</strong>
+          </article>
+          <article class="stat">
+            <span class="stat__label">今年新增存款</span>
+            <strong id="yearlyAmount">¥0.00</strong>
+          </article>
+          <article class="stat">
+            <span class="stat__label">最大单笔存款</span>
+            <strong id="largestAmount">¥0.00</strong>
+          </article>
+        </div>
+
+        <form class="goal-settings" id="goalSettingsForm">
+          <label for="goalAmount">
+            Goal Settings
+            <input
+              id="goalAmount"
+              name="goalAmount"
+              type="number"
+              min="0.01"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="1000000"
+              required
+            />
+          </label>
+          <button type="submit">保存目标</button>
+          <p class="goal-settings__status" id="goalSettingsStatus" role="status"></p>
+        </form>
+
+        <section class="background-settings" aria-labelledby="background-settings-title">
+          <div>
+            <h2 id="background-settings-title">Background</h2>
+            <p class="background-settings__hint">Upload a local image or use the default soft ribbon background.</p>
+          </div>
+          <div class="background-actions">
+            <label class="import-button" for="backgroundUploadInput">Upload Background</label>
+            <input
+              class="file-input"
+              id="backgroundUploadInput"
+              type="file"
+              accept="image/png,image/jpeg,image/jpg,image/webp"
+            />
+            <button class="export-button" id="removeBackgroundButton" type="button" disabled>
+              Remove Custom Background
+            </button>
+          </div>
+          <p class="background-settings__status" id="backgroundStatus" role="status"></p>
+        </section>
+      </section>
+
+      <section class="forecast" aria-labelledby="forecast-title">
+        <div>
+          <p class="eyebrow">目标预测</p>
+          <h2 id="forecast-title">Timeline Forecast</h2>
+          <p class="forecast-message" id="forecastMessage">
+            Start saving to unlock your timeline.
+          </p>
+        </div>
+        <div class="forecast-grid">
+          <article class="forecast-stat">
+            <span class="stat__label">平均每月新增</span>
+            <strong id="averageMonthlyAmount">¥0.00</strong>
+          </article>
+          <article class="forecast-stat">
+            <span class="stat__label">预计还需</span>
+            <strong id="monthsToGoal">--</strong>
+          </article>
+          <article class="forecast-stat">
+            <span class="stat__label">预计达成日期</span>
+            <strong id="estimatedGoalDate">--</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="insights-grid">
+        <section class="trend" aria-labelledby="trend-title">
+          <div class="section-heading">
+            <p class="eyebrow">Savings Trend</p>
+            <h2 id="trend-title">每月新增存款</h2>
+          </div>
+          <div class="trend-chart" id="trendChart" aria-label="按月份汇总的存款柱状图"></div>
+          <p class="empty-state compact" id="trendEmptyState">
+            还没有足够数据展示趋势。
+          </p>
+        </section>
+
+        <section class="milestones" aria-labelledby="milestones-title">
+          <div class="section-heading">
+            <p class="eyebrow">Milestones</p>
+            <h2 id="milestones-title">目标里程碑</h2>
+          </div>
+          <ul class="milestone-list" id="milestoneList"></ul>
+        </section>
+      </section>
+
+      <section class="content-grid">
+        <form class="record-form" id="recordForm">
+          <h2>新增存款</h2>
+
+          <label for="recordDate">
+            日期
+            <input id="recordDate" name="date" type="date" required />
+          </label>
+
+          <label for="recordAmount">
+            本次新增金额
+            <input
+              id="recordAmount"
+              name="amount"
+              type="number"
+              min="0.01"
+              step="0.01"
+              inputmode="decimal"
+              placeholder="例如 3000"
+              required
+            />
+          </label>
+
+          <label for="recordNote">
+            备注
+            <textarea
+              id="recordNote"
+              name="note"
+              rows="4"
+              maxlength="120"
+              placeholder="例如 工资结余"
+            ></textarea>
+          </label>
+
+          <button type="submit">保存记录</button>
+          <p class="form-error" id="formError" role="alert"></p>
+        </form>
+
+        <section class="history" aria-labelledby="history-title">
+          <div class="section-title-row">
+            <div>
+              <h2 id="history-title">历史记录</h2>
+              <span id="recordCount">0 条</span>
+            </div>
+            <div class="data-actions">
+              <button class="export-button" id="exportCsvButton" type="button" disabled>
+                导出 CSV
+              </button>
+              <button class="export-button" id="exportJsonButton" type="button" disabled>
+                Export JSON
+              </button>
+              <label class="import-button" for="importJsonInput">Import JSON</label>
+              <input
+                class="file-input"
+                id="importJsonInput"
+                type="file"
+                accept="application/json,.json"
+              />
+            </div>
+          </div>
+          <p class="import-status" id="importStatus" role="status"></p>
+
+          <ul class="record-list" id="recordList"></ul>
+          <p class="empty-state" id="emptyState">
+            还没有存款记录。先写下第一笔，100 万目标会从这里开始变清晰。
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
